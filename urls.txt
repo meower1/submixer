@@ -1,0 +1,3 @@
+https://raw.githubusercontent.com/udonlover420/lsd-cf-sub/main/lsd.txt
+https://raw.githubusercontent.com/IranianCypherpunks/sub/main/config
+https://api.biqibao.site/api/v1/client/subscribe?token=7d7e5ceb8971a79a39a3ace97736082e
