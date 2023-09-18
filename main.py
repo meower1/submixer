@@ -1,8 +1,11 @@
 import requests
 import base64
 import time
+import os
 
 def main():
+
+    os.system("python3 /root/submixer/Flask/app.py")
 
     while True:
         with open('urls.txt', 'r') as file:

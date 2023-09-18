@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from waitress import serve
-from os import path, walk
 
 
 # creates a Flask application
@@ -17,4 +16,4 @@ def hello():
 
 # run the application
 if __name__ == "__main__":
-	serve(app, host='0.0.0.0', port=5020, threads=1, url_prefix='/sub', url_scheme='https')
+	serve(app, host='0.0.0.0', port=5000, threads=1, url_prefix='/sub', url_scheme='https')
