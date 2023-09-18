@@ -17,6 +17,8 @@ read -p "Enter the domain name: " domain_name
 # Step 2: Get the server's IP address
 server_ip=$(curl -s ifconfig.me)
 
+
+
 # Step 3: Replace variables in /etc/nginx/sites-available/default
 cat <<EOF > /etc/nginx/sites-available/default
 server {
@@ -31,7 +33,7 @@ server {
  location / {
 
             proxy_pass http://$server_ip:5000;
-            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Real-IP \$remote_addr;
 
         }
 }
@@ -41,7 +43,7 @@ server {
 
     server_name $domain_name;
 
-    return 302 https://$server_name$request_uri;
+    return 302 https://\$server_name\$request_uri;
 }
 EOF
 
@@ -83,11 +85,14 @@ ExecStart=/usr/bin/python3 /root/submixer/Flask/app.py
 WantedBy=multi-user.target
 EOF
 
+systemctl daemon-reload
+
 # Step 7: Start and enable submixer and flask systemd services
 systemctl start submixer
 systemctl enable submixer
 systemctl start flask
 systemctl enable flask
+systemctl reload nginx
 
 # Step 8: Return the domain name in the https://domain.name format
 echo "Your website is now accessible at https://$domain_name"
