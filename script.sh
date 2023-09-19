@@ -2,10 +2,10 @@
 
 sudo apt update -y
 sudo apt install nginx python3 pip -y
-sudo pip install -r requirements.txt
+sudo pip install -r submixer/dependencies/requirements.txt
 
 
-# Step 0: Check if the SSL certificate is in place
+# Check if the SSL certificate is in place
 read -p "Have you placed your SSL certificate and private key at /root/cert.crt and /root/private.key? (y/n): " ssl_cert_ready
 read -p "Enter the domain name: " domain_name
 
@@ -22,12 +22,12 @@ if [ "$ssl_cert_ready" != "y" ]; then
 
 fi
 
-# Step 2: Get the server's IP address
+# Get the server's IP address
 server_ip=$(curl -s ifconfig.me)
 
 
 
-# Step 3: Replace variables in /etc/nginx/sites-available/default
+# Replace variables in /etc/nginx/sites-available/default
 cat <<EOF > /etc/nginx/sites-available/default
 server {
     listen 443 ssl;
@@ -55,11 +55,11 @@ server {
 }
 EOF
 
-# Step 4: Start and enable nginx systemd service
+# Start and enable nginx systemd service
 systemctl start nginx
 systemctl enable nginx
 
-# Step 5: Write the submixer service in /etc/systemd/system/submixer.service
+# Write the submixer service in /etc/systemd/system/submixer.service
 cat <<EOF > /etc/systemd/system/submixer.service
 [Unit]
 Description= Submixer service
@@ -70,13 +70,13 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
-ExecStart=/usr/bin/python3 /root/submixer/main.py
+ExecStart=/usr/bin/python3 /root/submixer/dependencies/main.py
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-# Step 6: Write the flask service in /etc/systemd/system/flask.service
+# Write the flask service in /etc/systemd/system/flask.service
 cat <<EOF > /etc/systemd/system/flask.service
 [Unit]
 Description= Submixer Flask service
@@ -95,12 +95,12 @@ EOF
 
 systemctl daemon-reload
 
-# Step 7: Start and enable submixer and flask systemd services
+# Start and enable submixer and flask systemd services
 systemctl start submixer
 systemctl enable submixer
 systemctl start flask
 systemctl enable flask
 systemctl reload nginx
 
-# Step 8: Return the domain name in the https://domain.name format
+# Return the domain name in the https://domain.name format
 echo "Your website is now accessible at https://$domain_name"
