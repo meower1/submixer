@@ -1,18 +1,26 @@
 #!/bin/bash
 
+sudo apt update -y
 sudo apt install nginx python3 pip -y
 sudo pip install -r requirements.txt
 
+
 # Step 0: Check if the SSL certificate is in place
 read -p "Have you placed your SSL certificate and private key at /root/cert.crt and /root/private.key? (y/n): " ssl_cert_ready
+read -p "Enter the domain name: " domain_name
 
 if [ "$ssl_cert_ready" != "y" ]; then
-  echo "Please place your SSL certificate and private key in /root/cert.crt and /root/private.key before running this script."
-  exit 1
-fi
+  apt install curl socat -y
+  curl https://get.acme.sh/ | sh
+  ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+  ~/.acme.sh/acme.sh --register-account -m te324stus32er@gmail.com
+  ~/.acme.sh/acme.sh --issue -d $domain_name --standalone
+  ~/.acme.sh/acme.sh --installcert -d $domain_name --key-file /root/private.key --fullchain-file /root/cert.crt
+  clear
+  echo "Your ssl certificate is ready. the script will now continue"
+  sleep 2
 
-# Step 1: Take the domain name from the user
-read -p "Enter the domain name: " domain_name
+fi
 
 # Step 2: Get the server's IP address
 server_ip=$(curl -s ifconfig.me)
