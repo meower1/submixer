@@ -1,6 +1,7 @@
 # 🌟 SubMixer 
 
 **SubMixer is a user-friendly Python and Bash script designed to simplify the process of mixing your proxy subscription links into a single, consolidated link.**
+> You will need a domain name and a VPS to run the flask server on
 
 ## 👓 Configuration 
 
