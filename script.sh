@@ -3,6 +3,7 @@
 sudo apt update -y
 sudo apt install nginx python3 pip -y
 sudo pip install -r dependencies/requirements.txt
+clear
 
 
 # Check if the SSL certificate is in place
@@ -103,4 +104,4 @@ systemctl enable flask
 systemctl reload nginx
 
 # Return the domain name in the https://domain.name format
-echo "Your website is now accessible at https://$domain_name"
+echo "Your subscription is now accessible at https://$domain_name"
