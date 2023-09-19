@@ -2,7 +2,7 @@
 
 sudo apt update -y
 sudo apt install nginx python3 pip -y
-sudo pip install -r submixer/dependencies/requirements.txt
+sudo pip install -r dependencies/requirements.txt
 
 
 # Check if the SSL certificate is in place
